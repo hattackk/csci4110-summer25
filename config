@@ -1,0 +1,9 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = true
+	ignorecase = true
+	precomposeunicode = true
+[remote "csci4110-summer25"]
+	url = https://github.com/jonesecu/csci4110-summer25
+	fetch = +refs/heads/*:refs/remotes/csci4110-summer25/*

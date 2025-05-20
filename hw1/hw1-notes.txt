@@ -1,0 +1,27 @@
+HW1 notes
+
+Run on PSC “Bridges-2” (see manual. Link in README)
+
+Must run:
+module load openblas
+before compiling
+If you compiled first then run “make clean” and make again
+
+You will need to edit a build file and change:
+
+march=znver3
+to
+march=x86-64
+Or something even better, if possible
+
+To run the job on bridges2:
+sbatch -p RM ./job-blas
+
+note: RM = regular memory partition, which is what we use
+
+See running job:
+
+squeue -u <userid>
+
+Where userid is your PSC/Bridges userid
+
