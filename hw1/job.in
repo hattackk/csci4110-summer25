@@ -9,5 +9,12 @@
 #SBATCH -o job-@BENCHMARK@.o%j
 #SBATCH -e job-@BENCHMARK@.e%j
 
+
+module purge all
+module load openblas
+module load intel
+
+
+
 export OMP_NUM_THREADS=1
 srun -N 1 -n 1 --cpu-freq=3500000 ./benchmark-@BENCHMARK@
