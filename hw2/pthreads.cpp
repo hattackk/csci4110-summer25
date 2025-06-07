@@ -41,14 +41,34 @@ void *thread_routine( void *pthread_id )
         dmin = 1.0;
         navg = 0;
         davg = 0.0;
+        
         //
-        //  compute forces
+        //  clear forces
+        //
+        for( int i = first; i < last; i++ )
+            particles[i].ax = particles[i].ay = 0;
+        
+        //
+        //  Only compute force between particles i and j where i < j
         //
         for( int i = first; i < last; i++ )
         {
-            particles[i].ax = particles[i].ay = 0;
-            for (int j = 0; j < n; j++ )
+            for (int j = i + 1; j < n; j++ )  
+            {
+                // Store what we have 
+                double ax_i_before = particles[i].ax;
+                double ay_i_before = particles[i].ay;
+                double ax_j_before = particles[j].ax;
+                double ay_j_before = particles[j].ay;
+            
                 apply_force( particles[i], particles[j], &dmin, &davg, &navg );
+                
+                double fx = particles[i].ax - ax_i_before;
+                double fy = particles[i].ay - ay_i_before;
+               
+                particles[j].ax = ax_j_before - fx;
+                particles[j].ay = ay_j_before - fy;
+            }
         }
         
         pthread_barrier_wait( &barrier );

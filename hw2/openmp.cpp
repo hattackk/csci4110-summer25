@@ -43,6 +43,8 @@ int main( int argc, char **argv )
     #pragma omp parallel private(dmin) 
     {
     numthreads = omp_get_num_threads();
+    int skip_output = find_option(argc, argv, "-no") != -1;
+
     for( int step = 0; step < 1000; step++ )
     {
         navg = 0;
@@ -51,7 +53,7 @@ int main( int argc, char **argv )
         //
         //  compute all forces
         //
-        #pragma omp for reduction (+:navg) reduction(+:davg)
+        #pragma omp for schedule(dynamic) reduction (+:navg) reduction(+:davg)
         for( int i = 0; i < n; i++ )
         {
             particles[i].ax = particles[i].ay = 0;
@@ -67,7 +69,7 @@ int main( int argc, char **argv )
         for( int i = 0; i < n; i++ ) 
             move( particles[i] );
   
-        if( find_option( argc, argv, "-no" ) == -1 ) 
+        if( skip_output == -1 ) 
         {
           //
           //  compute statistical data
